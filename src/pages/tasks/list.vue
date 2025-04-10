@@ -1,13 +1,4 @@
 <template>
-  <v-main>
-    <header>
-      <v-toolbar app>
-        <v-toolbar-title>Task Manager</v-toolbar-title>
-        <v-spacer></v-spacer>
-        <v-btn color="primary" @click="createNewTask">Create New Task</v-btn>
-      </v-toolbar>
-    </header>
-
     <v-container>
       <v-data-table
           :headers="headers"
@@ -23,14 +14,16 @@
         </template>
 
         <template v-slot:item.actions="{ item }">
-          <v-btn color="primary" @click="editTask(item.id)">Edit</v-btn>
-          <v-btn color="error" @click="deleteTask(item.id)">Delete</v-btn>
+          <div class="d-flex ga-2 justify-end">
+            <NuxtLink :to="`/tasks/${item.id}/edit`">
+              <v-icon color="medium-emphasis" icon="mdi-pencil" size="small"></v-icon>
+            </NuxtLink>
+
+            <v-icon color="medium-emphasis" icon="mdi-delete" size="small" @click="remove(item.id)"></v-icon>
+          </div>
         </template>
       </v-data-table>
-      <div>sssssssssssssss</div>
-
     </v-container>
-  </v-main>
 </template>
 
 <script>
@@ -65,12 +58,13 @@ export default {
   },
   async mounted() {
     try {
-      this.tasks = await this.$api.get('/tasks'); // API kérés
+      this.tasks = await this.$api.get('/tasks');
+      console.log("list.vue - mounted()", this.tasks);
     } catch (error) {
       console.error('Error fetching tasks:', error);
     }
   },
 };
 </script>
-<style lang="scss" src="./css/style.css"></style>
+<style lang="scss" src="@/assets/css/tasks/list.scss"></style>
 
