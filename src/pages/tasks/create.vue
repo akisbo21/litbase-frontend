@@ -4,7 +4,7 @@
       <span class="back-icon"><< &nbsp;</span> Back to list
     </NuxtLink>
 
-    <v-form v-if="task">
+    <v-form>
       <v-text-field
           v-model="task.title"
           label="Title"
@@ -43,7 +43,6 @@
         <v-btn @click="save" color="primary">Save</v-btn>
       </div>
     </v-form>
-    <v-alert v-else type="error">Task not found</v-alert>
   </v-container>
 </template>
 
@@ -59,7 +58,7 @@ const form = ref({
 export default {
   data() {
     return {
-      task: null,
+      task: {},
       statusOptions: ['todo', 'in_progress', 'done', 'waiting_for_review'],
       priorityOptions: ['low', 'medium', 'high', 'blocker'],
     };
@@ -67,23 +66,21 @@ export default {
   methods: {
     async save() {
       try {
-        console.log('edit.vue - save()', this.task);
-        await this.$api.post(`/tasks/${this.task.id}/edit`, this.task);
+        console.log('create.vue - save()', this.task);
+        const response = await this.$api.post(`/tasks/create`, this.task);
         this.$snack.success("Task saved successfully!");
+
+
+        console.log("create.vue", response);
+        this.$router.push(`/tasks/${response.id}/edit`);
       } catch (error) {
+        console.log("error", error);
         this.$snack.error("Saving task failed!!");
       }
     }
   },
-  async mounted() {
-    const id = this.$route.params.id;
-    // console.log('edit.vue - mounted()', this.$route.params);
-    try {
-      this.task = await this.$api.get(`/tasks/${id}/edit`);
-      console.log('edit.vue - mounted()', this.task);
-    } catch (error) {
-      console.error('Error fetching task:', error);
-    }
+  mounted() {
+    console.log('create.vue - mounted()');
   }
 };
 </script>

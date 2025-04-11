@@ -6,7 +6,10 @@
       <v-toolbar app>
         <v-toolbar-title>Task Manager</v-toolbar-title>
         <v-spacer></v-spacer>
-        <v-btn color="primary" @click="createNewTask">Create New Task</v-btn>
+        <NuxtLink :to="`/tasks/create`">
+          <v-icon color="medium-emphasis" icon="mdi-pencil" size="small"></v-icon>
+          Create New Task
+        </NuxtLink>
       </v-toolbar>
     </header>
     <slot></slot>

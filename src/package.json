@@ -10,6 +10,7 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "date-fns": "^4.1.0",
     "@mdi/font": "7.4.47",
     "mailgun.js": "^12.0.1",
     "nuxt": "3.11",

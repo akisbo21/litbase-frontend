@@ -5,6 +5,7 @@ const Api = function (nuxt, host) {
 
   self.handleCatch = (resp) => {
     console.log("api error", resp);
+    throw new Error(resp);
   };
 
   self.upload = async (url, file) => {
@@ -37,6 +38,7 @@ const Api = function (nuxt, host) {
       headers: headers,
     })
       .then((response) => {
+        // console.log("api.js", response);
         return response.json();
       })
       .catch(self.handleCatch);
